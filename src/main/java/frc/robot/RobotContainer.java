@@ -4,9 +4,6 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -16,16 +13,17 @@ import frc.robot.commands.ArmrControlDown;
 import frc.robot.commands.ArmrControlUp;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.armSubsystem;
+import frc.robot.subsystems.driveSubsystem;
+import frc.robot.subsystems.flabber;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.SpeedConstants;
-// import frc.robot.subsystems.driveSubsystem;
 import frc.robot.subsystems.shooterSubsystem;
 import frc.robot.subsystems.transitionSubsystem;
 import frc.robot.subsystems.intakeSubsystem;
+import frc.robot.subsystems.lift;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-// import frc.robot.commands.armrControl;
 
 
 
@@ -38,16 +36,15 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  // private final driveSubsystem a_robotDrive = new driveSubsystem();
+  private final driveSubsystem a_robotDrive = new driveSubsystem();
   private final shooterSubsystem a_shooter = new shooterSubsystem();
   private final intakeSubsystem a_rollerIntake = new intakeSubsystem();
   private final armSubsystem a_arm = new armSubsystem();
   private final transitionSubsystem a_transition = new transitionSubsystem();
+  private final flabber a_flabber = new flabber();
+  private final lift a_lift = new lift();
 
-  // private DigitalInput armSwitchDown = new DigitalInput(MechConstants.aArmDownSwitch);
-  // private DigitalInput armSwitchUp = new DigitalInput(MechConstants.aArmUpSwitch);
-  
-  //private final Command a_armrCommand = new armrControl(a_arm, armSwitchUp);
+
   private final ExampleSubsystem m_exampleSubsystem =  new ExampleSubsystem();
   private final ExampleCommand a_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
@@ -55,7 +52,6 @@ public class RobotContainer {
   XboxController a_driverController = new XboxController(OIConstants.aDriverControllerPort);
   XboxController a_operatorController = new XboxController(OIConstants.aOperatorControllerPort);
 
-  // WPI_VictorSPX a_arm = new WPI_VictorSPX(MechConstants.aArmPort);
 
 
 
@@ -71,8 +67,8 @@ public class RobotContainer {
         a_driverController.getLeftX()
       ), a_robotDrive));
   
-    //   SmartDashboard.putData(a_robotDrive);
-    //   a_robotDrive.displayEncoderValues();
+      SmartDashboard.putData(a_robotDrive);
+      a_robotDrive.displayEncoderValues();
 
   }
 
@@ -83,6 +79,9 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
+
+    //driver
 
     new JoystickButton(a_driverController, Button.kRightBumper.value)
     .whenPressed(() -> a_shooter.shooterRun(SpeedConstants.aHighShootSpeed))
@@ -104,8 +103,30 @@ public class RobotContainer {
     .whenPressed(() -> a_transition.transitionRun(SpeedConstants.aTransitionSpeed))
     .whenReleased(() -> a_transition.transitionStop());
 
-    
-    
+    new JoystickButton(a_driverController, Button.kLeftBumper.value)
+    .whenPressed(() -> a_flabber.flabberRun(SpeedConstants.aFlabberSpeed))
+    .whenReleased(() -> a_flabber.flabberStop());
+
+    new JoystickButton(a_driverController, Button.kRightStick.value)
+    .whenPressed(() -> a_lift.liftRun(a_driverController.getRightX()))
+    .whenReleased(() -> a_lift.liftStop());
+
+    //operator
+    new JoystickButton(a_operatorController, Button.kRightBumper.value)
+    .whenPressed(() -> a_shooter.shooterRun(SpeedConstants.aHighShootSpeed))
+    .whenReleased(() -> a_shooter.shooterRun(0.0));
+
+    new JoystickButton(a_operatorController, Button.kX.value)
+    .whenPressed(() -> a_rollerIntake.intakeRun(SpeedConstants.aRollerSpeed))
+    .whenReleased(() -> a_rollerIntake.intakeRun(0.0));
+
+    new JoystickButton(a_operatorController, Button.kA.value)
+    .whenPressed(new ArmrControlUp(a_arm))
+    .whenReleased(() -> a_arm.intakeArmStop());
+
+    new JoystickButton(a_operatorController, Button.kB.value)
+    .whenPressed(new ArmrControlDown(a_arm))
+    .whenReleased(() -> a_arm.intakeArmStop());
   }
 
   /**

@@ -26,12 +26,14 @@ public final class Constants {
         public static final boolean aLeftEncoderReversed = false;
         public static final boolean aRightEncoderReversed = true;
 
+                //pathweaver
+
         public static final double aTrackwidthMeters = 1.1;
         public static final DifferentialDriveKinematics aDriveKinematics =
             new DifferentialDriveKinematics(aTrackwidthMeters);
 
         public static final double aGearRatio = 10.93;
-        public static final int aEncoderCPR = 2048;
+        public static final int aEncoderCPR = 20;
         public static final double aWheelDiameterMeters = 0.16;
         public static final double aEncoderDistancePerPulse = 
             (aWheelDiameterMeters * Math.PI) / (double) aEncoderCPR;
@@ -55,6 +57,10 @@ public final class Constants {
         public static final int aArmPort = 6;
                 //transition subsystem
         public static final int aTransitionPort = 7;
+                //flabber
+        public static final int aFlabber = 8;
+                //lift
+        public static final int aLiftPort = 9;
                 //switches
         public static final int aArmDownSwitch = 0;
         public static final int aArmUpSwitch = 1;
@@ -70,5 +76,6 @@ public final class Constants {
         public static final double aTransitionSpeed = 0.5;
         public static final double aHighShootSpeed = 0.7;
         public static final double aLowShootSpeed = 0.4;
+        public static final double aFlabberSpeed = 0.4;
     }
 }
