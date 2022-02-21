@@ -20,6 +20,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.SpeedConstants;
 import frc.robot.subsystems.shooterSubsystem;
 import frc.robot.subsystems.transitionSubsystem;
+import frc.robot.subsystems.winch;
 import frc.robot.subsystems.intakeSubsystem;
 import frc.robot.subsystems.lift;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -43,6 +44,7 @@ public class RobotContainer {
   private final transitionSubsystem a_transition = new transitionSubsystem();
   private final flabber a_flabber = new flabber();
   private final lift a_lift = new lift();
+  private final winch a_winch = new winch();
 
 
   private final ExampleSubsystem m_exampleSubsystem =  new ExampleSubsystem();
@@ -107,12 +109,9 @@ public class RobotContainer {
     .whenPressed(() -> a_flabber.flabberRun(SpeedConstants.aFlabberSpeed))
     .whenReleased(() -> a_flabber.flabberStop());
 
-    new JoystickButton(a_driverController, Button.kRightStick.value)
-    .whenPressed(() -> a_lift.liftRun(a_driverController.getRightX()))
-    .whenReleased(() -> a_lift.liftStop());
 
     //operator
-    new JoystickButton(a_operatorController, Button.kRightBumper.value)
+    new JoystickButton(a_operatorController, Button.kY.value)
     .whenPressed(() -> a_shooter.shooterRun(SpeedConstants.aHighShootSpeed))
     .whenReleased(() -> a_shooter.shooterRun(0.0));
 
@@ -127,6 +126,14 @@ public class RobotContainer {
     new JoystickButton(a_operatorController, Button.kB.value)
     .whenPressed(new ArmrControlDown(a_arm))
     .whenReleased(() -> a_arm.intakeArmStop());
+
+    new JoystickButton(a_operatorController, Button.kRightBumper.value)
+    .whenPressed(() -> a_lift.liftRun(SpeedConstants.aLiftSpeed))
+    .whenReleased(() -> a_lift.liftStop());
+
+    new JoystickButton(a_operatorController, Button.kLeftBumper.value)
+    .whenPressed(() -> a_winch.winchRun(SpeedConstants.aWinchSpeed))
+    .whenReleased(() -> a_winch.winchStop());
   }
 
   /**

@@ -61,6 +61,8 @@ public final class Constants {
         public static final int aFlabber = 8;
                 //lift
         public static final int aLiftPort = 9;
+                //winch
+        public static final int aWinchPort = 10;
                 //switches
         public static final int aArmDownSwitch = 0;
         public static final int aArmUpSwitch = 1;
@@ -77,5 +79,7 @@ public final class Constants {
         public static final double aHighShootSpeed = 0.7;
         public static final double aLowShootSpeed = 0.4;
         public static final double aFlabberSpeed = 0.4;
+        public static final double aLiftSpeed = 0.5;
+        public static final double aWinchSpeed = 0.5;
     }
 }
