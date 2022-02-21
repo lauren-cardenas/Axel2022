@@ -29,25 +29,15 @@ public class armSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
   public void intakeDown(){
-    // if (armSwitchDown.get()){
-    //   System.out.println("setting arm speed to ");
-    //   System.out.println(-SpeedConstants.aArmSpeed);
+
       a_arm.set(-SpeedConstants.aArmSpeed);
-    // } else{
-    // System.out.println("arm is down");
-    // a_arm.set(0);
-    // }
+
   }
 
   public void intakeUp(){
-    // if (armSwitchUp.get()){
-    //   System.out.println("setting arm speed to ");
-    //   System.out.println(SpeedConstants.aArmSpeed);
+
       a_arm.set(SpeedConstants.aArmSpeed);
-    // } else{
-    //   System.out.println("arm is up");
-    //   a_arm.set(0);
-    // }
+
   }
   public void intakeArmStop(){
     a_arm.set(0);
